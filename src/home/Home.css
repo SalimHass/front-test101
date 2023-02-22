@@ -1,0 +1,45 @@
+.Home{
+   margin: 0 10px;
+}
+
+
+form {
+    
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    justify-items: start;
+    row-gap: 5px;
+    padding: 0 10px;
+    max-width: 425px;
+}
+.sub-btn{
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 75%;
+    max-width: 350px;
+    
+    
+}
+
+@media (max-width: 425px) {
+    form {
+        display: flex;
+      flex-direction: column;
+    }
+    .sub-btn{
+        align-self: center;
+        
+        width: 75%;
+        
+        
+    }
+}
+
+
+.check{
+    grid-column: 1 / -1;
+    width: 100%;
+    
+    display: flex;
+   justify-content: center;
+}
