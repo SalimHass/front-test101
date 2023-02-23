@@ -6,17 +6,18 @@ import { useState } from 'react';
 
 function Home() {
 
-  const [inputs, setInputs] = useState({ name: "", sectors: {} });
+  const [inputs, setInputs] = useState({ name: "", sectors: {}, agreed: false });
+  const [missing, setMessing] = useState(<p></p>);
   function selectedFunction(e) {
     var options = e.target.options;
     var value = {};
     for (var i = 0, l = options.length; i < l; i++) {
       if (options[i].selected) {
-        
+
         value[options[i].value] = options[i].text.trim();
       }
     }
-    
+
     return value
 
   }
@@ -24,7 +25,7 @@ function Home() {
     
     let selectedArr = []
 
-    
+
 
     const name = event.target.name;
     const value = event.target.value;
@@ -33,17 +34,21 @@ function Home() {
       setInputs(values => ({ ...values, [name]: value }))
     } else if (name === "sectors") {
       selectedArr = selectedFunction(event)
+      setInputs(values => ({ ...values, sectors: selectedArr }))
+    }else if (name === "agree") {
       
-
-      
-        setInputs(values => ({ ...values, sectors: selectedArr }))
-      
+      setInputs(values => ({ ...values, agreed: !inputs.agreed }))
     }
 
   }
+  
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(inputs)
+    
+    if (inputs.name === "" || Object.keys(inputs.sectors).length === 0 || inputs.agreed=== false ){
+      setMessing(<p>Please fill the missing data</p>)
+    }
+    
 
 
   }
@@ -57,11 +62,13 @@ function Home() {
   return (
     <div className='Home'>
       <div><p>Please enter your name and pick the Sectors you are currently involved in.
-      </p></div>
+      </p>
+      {missing}</div>
+      
       <form onSubmit={handleSubmit}>
         <label >Name:</label><input type="text" name='name' value={inputs.name} onChange={handleChange} placeholder="name" />
         <label >Sectors:</label>
-        <select multiple={true} size="8" name='sectors' id='sectors' onChange={handleChange}>
+        <select  multiple={true} size="8" name='sectors' id='sectors' onChange={handleChange}>
           <option value="1">Manufacturing</option>
           <option value="19">&nbsp;&nbsp;&nbsp;&nbsp;Construction materials</option>
           <option value="18">&nbsp;&nbsp;&nbsp;&nbsp;Electronics and Optics</option>
@@ -144,7 +151,7 @@ function Home() {
         </select>
         <div className='check'>
 
-          <label className='a'>Agree to terms</label><input type="checkbox" name='agree' />
+          <label className='a'>Agree to terms</label><input type="checkbox" name='agree' onClick={handleChange} />
         </div>
         <input type="submit" className='sub-btn ' onClick={handleSubmit} />
       </form>
